@@ -69,6 +69,7 @@ print('-------------------------------------------------------------------------
 y_pred = clf_gini.predict(x_test)
 y_pred_en = clf_entropy.predict(x_test)
 
+#產生混淆陣列
 def makeConfusionmatrix(y_true,y_pred):
 	df = pd.DataFrame(np.zeros((4,4),dtype=np.int))
 	for i in range(len(y_pred)):
