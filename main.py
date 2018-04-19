@@ -4,6 +4,7 @@ import numpy as np
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification
+from sklearn.utils.multiclass import unique_labels
 
 
 
@@ -90,9 +91,10 @@ print('-------------------------------------------------------------------------
 
 #結果評估  自製 precision_recall_fscore_support函數
 def resultShow(y_true,y_pred):
-	tp_sum = np.zeros(4)
-	true_sum = np.zeros(4)
-	pred_sum = np.zeros(4)
+	labels = unique_labels(y_true, y_pred)
+	tp_sum = np.zeros(len(labels))
+	true_sum = np.zeros(len(labels))
+	pred_sum = np.zeros(len(labels))
 
 	for i in range(len(y_true)):
 		if y_true[i] ==  y_pred[i]:
@@ -102,13 +104,14 @@ def resultShow(y_true,y_pred):
 
 	precision = tp_sum/pred_sum
 	recall = tp_sum/true_sum
-	accuracy = tp_sum/len(y_pred)
 	fscore = (2*precision*recall)/(precision+recall)
 	support = true_sum.astype('int')
+	accuracy = np.sum(tp_sum)/np.sum(pred_sum)
 
-	df = pd.DataFrame({'accuracy':accuracy,'precision':precision , "recall" : recall,'fscore': fscore,'support':support,'values':target_names})
+	df = pd.DataFrame({'precision':precision , "recall" : recall,'fscore': fscore,'support':support,'values':target_names})
 	df = df.set_index('values')
 	print(df)
+	print('accuracy : {}'.format(accuracy))
 
 
 print("Gini Classification report is : ")
