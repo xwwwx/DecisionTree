@@ -17,23 +17,20 @@ df_car.columns = ["buying","maint", "doors", "persons", "lug_boot", "safety","va
 
 target_names = ['unacc','acc', 'good', 'vgood' ]
 
-buyingLabel = {'low' : 0,'med' : 1,'high' : 2,'vhigh' : 3}
-maintLabel = {'low' : 0,'med' : 1,'high' : 2,'vhigh' : 3}
-doorsLabel = { '0' : 0, '1' : 1, '2' : 2, '3' : 3, '4' :4 , '5more' : 5}
-personsLabel = {  '2' : 0, '4' : 1 , 'more' : 2}
-lug_bootLabel = {  'small' : 0 , 'med' :1 , 'big' : 2}
-safetyLabel = {  'low' : 0 , 'med' :1 , 'high' : 2}
-valuesLabel = {'unacc' : 0,'acc' : 1, 'good' : 2, 'vgood' : 3}
+tabel = {'buying' : {'low' : 0,'med' : 1,'high' : 2,'vhigh' : 3},
+         'maint' : {'low' : 0,'med' : 1,'high' : 2,'vhigh' : 3},
+         'doors' : { '0' : 0, '1' : 1, '2' : 2, '3' : 3, '4' :4 , '5more' : 5},
+         'persons' : {  '2' : 0, '4' : 1 , 'more' : 2},
+         'lug_boot' : {  'small' : 0 , 'med' :1 , 'big' : 2},
+         'safety' : {  'low' : 0 , 'med' :1 , 'high' : 2},
+         'values' : {'unacc' : 0,'acc' : 1, 'good' : 2, 'vgood' : 3}
+        }
 
 for index in range(len(df_car['buying'])):
-	#df_car.set_value(index,'buying',buyingLabel[df_car['buying'].loc[index]])
-	df_car.ix[index,'buying'] = buyingLabel[df_car['buying'].loc[index]]
-	df_car.ix[index,'maint'] = maintLabel[df_car['maint'].loc[index]]
-	df_car.ix[index,'doors'] = doorsLabel[df_car['doors'].loc[index]]
-	df_car.ix[index,'persons'] = personsLabel[df_car['persons'].loc[index]]
-	df_car.ix[index,'lug_boot'] = lug_bootLabel[df_car['lug_boot'].loc[index]]
-	df_car.ix[index,'safety'] = safetyLabel[df_car['safety'].loc[index]]
-	df_car.ix[index,'values'] = valuesLabel[df_car['values'].loc[index]]
+    for columns in df_car.columns.values:
+       df_car.ix[index,columns] = tabel[columns][df_car[columns].loc[index]] 
+
+
 
 #切割資料
 x, y = df_car.iloc[:, 0:6].values, df_car.iloc[:, 6].values
